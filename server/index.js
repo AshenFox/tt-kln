@@ -3,24 +3,19 @@ const path = require("path");
 
 const json_server = require("json-server");
 const router = json_server.router(path.resolve(__dirname, "db", "db.json"));
-const json_middlewares = json_server.defaults();
+// const json_middlewares = json_server.defaults(["../build"]);
 
-const app = express();
+// const app = express();
+const app = json_server.create();
 
-// Init Middleware
+// Server settings
 app.use(express.json({ extended: false }));
 
-// app.use(jsonServer.bodyParser);
-
-// app.use(json_middlewares);
+// Api route
 app.use("/api", router);
+
+// Static files
 app.use(express.static(path.resolve(__dirname, "../build")));
-
-/* app.get("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "../build", "index.html"))
-); */
-
-// console.log(path.resolve(__dirname, "../build", "index.html"));
 
 const PORT = process.env.PORT || 5000;
 
